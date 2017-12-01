@@ -25,6 +25,7 @@ BlockStatic.contextTypes = {
   datasets: PropTypes.object,
 }
 
+export default BlockStatic;
 
 // import vimeoRegex from 'vimeo-regex';
 
