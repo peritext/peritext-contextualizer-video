@@ -21,7 +21,7 @@ exports.default = function (_ref2) {
   var resource = _ref2.resource;
 
   if (Media) {
-    var url = resource.data.url || resource.metadata.mediaUrl;
+    var url = resource.data.url;
     return _react2.default.createElement(
       'figure',
       {

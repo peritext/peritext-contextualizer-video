@@ -7,7 +7,7 @@ export default ({
   resource,
 }) => {
   if (Media) {
-    const url = resource.data.url || resource.metadata.mediaUrl;
+    const url = resource.data.url;
     return (
       <figure 
         className="peritext-contextualization peritext-contextualization-block peritext-contextualization-web peritext-contextualizer-video"
