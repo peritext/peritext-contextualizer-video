@@ -1,25 +1,24 @@
 
 import React from 'react';
-import PropTypes from 'prop-types';
 
 import meta from './meta';
 import { chooseAppropriateAsset } from 'peritext-utils';
 
-import BlockPlayer from './BlockPlayer';
+import InlinePlayer from './InlinePlayer';
 
 const isBrowser = new Function( 'try {return this===window;}catch(e){ return false;}' );/* eslint no-new-func : 0 */
 
 const inBrowser = isBrowser();
 
-const Block = ( {
+const Inline = ( {
   resource,
   contextualizer = {},
   contextualization = {},
-  renderingMode
+  renderingMode,
+  assets = {}
 }, {
-  productionAssets,
 } ) => {
-  const appropriateAsset = chooseAppropriateAsset( resource, meta.profile.block.assetPickingRules.element[renderingMode], productionAssets );
+  const appropriateAsset = chooseAppropriateAsset( resource, meta.profile.inline.assetPickingRules.element[renderingMode], assets );
   let field;
   if ( appropriateAsset ) {
     field = appropriateAsset.resourceDataField;
@@ -30,6 +29,7 @@ const Block = ( {
 
   let assetUri;
   const asset = appropriateAsset.asset;
+  console.log({field})
 
   const renderContent = () => {
     switch ( field ) {
@@ -45,28 +45,17 @@ const Block = ( {
             parameters = {},
           } = contextualizer;
           const {
-            heavyPlayer = true,
-            displayControls = true,
-            autoPlay = false,
             loop = false,
-            muted = false,
             startTime,
             endTime,
           } = parameters;
           return (
-            <div className={ 'media' }>
-              <BlockPlayer
+              <InlinePlayer
                 url={ assetUri }
-                light={ !heavyPlayer }
-                controls={ displayControls }
-                autoPlay={ autoPlay }
                 loop={ loop }
-                muted={ muted }
-                volume={ muted ? 0 : null }
                 startTime={startTime}
                 endTime={endTime}
               />
-            </div>
           );
         }
         else if ( assetUri ) {
@@ -82,28 +71,26 @@ const Block = ( {
         else return null;
 
         default:
+          console.log({appropriateAsset})
           if ( appropriateAsset ) {
             assetUri = appropriateAsset.asset.data;
             return (
-              <img src={ assetUri } />
+              <span className="inline-images-container">
+                <img src={ assetUri } />
+              </span>
             );
           }
         return null;
       }
     };
     return (
-      <div
+      <span
         id={ contextualization.id }
-        className={ `peritext-contextualization block video rendering-mode-${renderingMode} asset-field-${field}` }
+        className={ `peritext-contextualization inline video rendering-mode-${renderingMode} asset-field-${field}` }
       >
         {renderContent()}
-      </div>
+      </span>
     );
   // }
 };
-
-Block.contextTypes = {
-  productionAssets: PropTypes.object,
-};
-
-export default Block;
+export default Inline;

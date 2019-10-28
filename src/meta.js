@@ -23,6 +23,36 @@ export default {
         },
         muted: {
           type: 'boolean'
+        },
+        startTime: {
+          type: 'number',
+          uiType: 'time'
+        },
+        endTime: {
+          type: 'number',
+          uiType: 'time'
+        }
+      },
+      assetPickingRules: {
+        element: {
+          screened: [ 'mediaUrl', ],
+          paged: [ 'cmybImageAssetId', 'rgbImageAssetId' ]
+        }
+      }
+    },
+    inline: {
+      mutable: false,
+      options: {
+        loop: {
+          type: 'boolean'
+        },
+        startTime: {
+          type: 'number',
+          uiType: 'time'
+        },
+        endTime: {
+          type: 'number',
+          uiType: 'time'
         }
       },
       assetPickingRules: {

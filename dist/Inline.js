@@ -7,13 +7,11 @@ exports.default = void 0;
 
 var _react = _interopRequireDefault(require("react"));
 
-var _propTypes = _interopRequireDefault(require("prop-types"));
-
 var _meta = _interopRequireDefault(require("./meta"));
 
 var _peritextUtils = require("peritext-utils");
 
-var _BlockPlayer = _interopRequireDefault(require("./BlockPlayer"));
+var _InlinePlayer = _interopRequireDefault(require("./InlinePlayer"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -22,15 +20,14 @@ const isBrowser = new Function('try {return this===window;}catch(e){ return fals
 
 const inBrowser = isBrowser();
 
-const Block = ({
+const Inline = ({
   resource,
   contextualizer = {},
   contextualization = {},
-  renderingMode
-}, {
-  productionAssets
-}) => {
-  const appropriateAsset = (0, _peritextUtils.chooseAppropriateAsset)(resource, _meta.default.profile.block.assetPickingRules.element[renderingMode], productionAssets);
+  renderingMode,
+  assets = {}
+}, {}) => {
+  const appropriateAsset = (0, _peritextUtils.chooseAppropriateAsset)(resource, _meta.default.profile.inline.assetPickingRules.element[renderingMode], assets);
   let field;
 
   if (appropriateAsset) {
@@ -41,6 +38,9 @@ const Block = ({
 
   let assetUri;
   const asset = appropriateAsset.asset;
+  console.log({
+    field
+  });
 
   const renderContent = () => {
     switch (field) {
@@ -56,27 +56,16 @@ const Block = ({
             parameters = {}
           } = contextualizer;
           const {
-            heavyPlayer = true,
-            displayControls = true,
-            autoPlay = false,
             loop = false,
-            muted = false,
             startTime,
             endTime
           } = parameters;
-          return _react.default.createElement("div", {
-            className: 'media'
-          }, _react.default.createElement(_BlockPlayer.default, {
+          return _react.default.createElement(_InlinePlayer.default, {
             url: assetUri,
-            light: !heavyPlayer,
-            controls: displayControls,
-            autoPlay: autoPlay,
             loop: loop,
-            muted: muted,
-            volume: muted ? 0 : null,
             startTime: startTime,
             endTime: endTime
-          }));
+          });
         } else if (assetUri) {
           return _react.default.createElement("video", {
             controls: true
@@ -87,25 +76,28 @@ const Block = ({
         } else return null;
 
       default:
+        console.log({
+          appropriateAsset
+        });
+
         if (appropriateAsset) {
           assetUri = appropriateAsset.asset.data;
-          return _react.default.createElement("img", {
+          return _react.default.createElement("span", {
+            className: "inline-images-container"
+          }, _react.default.createElement("img", {
             src: assetUri
-          });
+          }));
         }
 
         return null;
     }
   };
 
-  return _react.default.createElement("div", {
+  return _react.default.createElement("span", {
     id: contextualization.id,
-    className: `peritext-contextualization block video rendering-mode-${renderingMode} asset-field-${field}`
+    className: `peritext-contextualization inline video rendering-mode-${renderingMode} asset-field-${field}`
   }, renderContent()); // }
 };
 
-Block.contextTypes = {
-  productionAssets: _propTypes.default.object
-};
-var _default = Block;
+var _default = Inline;
 exports.default = _default;
