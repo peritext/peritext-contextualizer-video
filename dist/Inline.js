@@ -38,9 +38,6 @@ const Inline = ({
 
   let assetUri;
   const asset = appropriateAsset.asset;
-  console.log({
-    field
-  });
 
   const renderContent = () => {
     switch (field) {
