@@ -18,7 +18,7 @@ const Player = inBrowser ? require('react-player').default : undefined;
 const BlockPlayer = ({
   url,
   light = false,
-  displayControls,
+  controls,
   autoPlay,
   loop,
   muted,
@@ -38,7 +38,7 @@ const BlockPlayer = ({
   return _react.default.createElement(Player, {
     url: url,
     light: light,
-    controls: displayControls,
+    controls: controls,
     ref: playerRef,
     autoPlay: autoPlay,
     loop: loop,

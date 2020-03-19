@@ -15,7 +15,7 @@ export default {
         heavyPlayer: {
           type: 'boolean',
         },
-        displayControls: {
+        controls: {
           type: 'boolean'
         },
         loop: {
