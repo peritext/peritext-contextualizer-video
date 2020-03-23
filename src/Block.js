@@ -20,6 +20,7 @@ const Block = ( {
   productionAssets,
 } ) => {
   const appropriateAsset = chooseAppropriateAsset( resource, meta.profile.block.assetPickingRules.element[renderingMode], productionAssets );
+  let cover = chooseAppropriateAsset( resource, meta.profile.block.assetPickingRules.element['paged'], productionAssets );
   let field;
   if ( appropriateAsset ) {
     field = appropriateAsset.resourceDataField;
@@ -58,6 +59,7 @@ const Block = ( {
               <BlockPlayer
                 url={ assetUri }
                 light={ !heavyPlayer }
+                cover={cover && cover.asset && cover.asset.data}
                 controls={ displayControls }
                 autoPlay={ autoPlay }
                 loop={ loop }

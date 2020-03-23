@@ -31,6 +31,7 @@ const Block = ({
   productionAssets
 }) => {
   const appropriateAsset = (0, _peritextUtils.chooseAppropriateAsset)(resource, _meta.default.profile.block.assetPickingRules.element[renderingMode], productionAssets);
+  let cover = (0, _peritextUtils.chooseAppropriateAsset)(resource, _meta.default.profile.block.assetPickingRules.element['paged'], productionAssets);
   let field;
 
   if (appropriateAsset) {
@@ -69,6 +70,7 @@ const Block = ({
           }, _react.default.createElement(_BlockPlayer.default, {
             url: assetUri,
             light: !heavyPlayer,
+            cover: cover && cover.asset && cover.asset.data,
             controls: displayControls,
             autoPlay: autoPlay,
             loop: loop,

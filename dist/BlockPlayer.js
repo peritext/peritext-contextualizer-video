@@ -23,7 +23,8 @@ const BlockPlayer = ({
   loop,
   muted,
   startTime,
-  endTime
+  endTime,
+  cover
 }) => {
   const playerRef = (0, _react.useRef)(null);
 
@@ -37,7 +38,7 @@ const BlockPlayer = ({
 
   return _react.default.createElement(Player, {
     url: url,
-    light: light,
+    light: light ? cover || true : undefined,
     controls: controls,
     ref: playerRef,
     autoPlay: autoPlay,

@@ -15,7 +15,8 @@ const BlockPlayer = ({
   loop,
   muted,
   startTime,
-  endTime
+  endTime,
+  cover,
 }) => {
   const playerRef  = useRef(null)
   const handlePlayProgress = ({playedSeconds}) => {
@@ -29,7 +30,7 @@ const BlockPlayer = ({
   return (
     <Player
       url={ url }
-      light={ light }
+      light={ light ? cover || true : undefined }
       controls={ controls }
       ref={playerRef}
       autoPlay={ autoPlay }
