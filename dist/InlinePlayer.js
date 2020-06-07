@@ -22,11 +22,16 @@ const InlinePlayer = ({
   endTime
 }) => {
   const [isPlaying, setPlaying] = (0, _react.useState)(false);
+  const [isBuffering, setBuffering] = (0, _react.useState)(false);
   const playerRef = (0, _react.useRef)(null);
 
   const handlePlayProgress = ({
     playedSeconds
   }) => {
+    if (isBuffering) {
+      setBuffering(false);
+    }
+
     if (startTime && playedSeconds < startTime) {
       playerRef.current.seekTo(startTime, 'seconds');
     } else if (endTime && playedSeconds > endTime) {
@@ -35,10 +40,37 @@ const InlinePlayer = ({
     }
   };
 
+  const handleBuffer = () => {
+    setBuffering(true);
+  };
+
+  const handleBufferEnd = () => {
+    setBuffering(false);
+  };
+
+  const handleEnded = () => {
+    setBuffering(false);
+  };
+
   const handleClick = e => {
     e.stopPropagation();
+
+    if (!isPlaying) {
+      setBuffering(true);
+    }
+
     setPlaying(!isPlaying);
   };
+
+  let symbol = '▶';
+
+  if (isPlaying) {
+    if (isBuffering) {
+      symbol = '●';
+    } else {
+      symbol = '■';
+    }
+  }
 
   return [_react.default.createElement("span", {
     key: 1,
@@ -49,12 +81,16 @@ const InlinePlayer = ({
     url: url,
     playing: isPlaying,
     onProgress: handlePlayProgress,
+    onBuffer: handleBuffer,
+    onBufferEnd: handleBufferEnd,
+    onEnded: handleEnded,
     loop: loop,
     ref: playerRef
   })), _react.default.createElement("button", {
+    className: `inline-video-player ${isBuffering && isPlaying ? 'is-buffering' : ''}`,
     onClick: handleClick,
     key: 2
-  }, isPlaying ? '■' : '▶')];
+  }, symbol)];
 };
 
 var _default = InlinePlayer;
